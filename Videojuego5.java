@@ -1,4 +1,4 @@
-//Lab5 - Mariel Jara
+//Lab8 - Mariel Jara
 //Tendrá 2 Ejércitos (usar HashMaps)
 import java.util.*;
 public class Videojuego5 {
