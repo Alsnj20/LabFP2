@@ -12,24 +12,48 @@ public class Videojuego7 {
             Soldado[][] navy2 = new Soldado[f][c];
             fillSoldier(navy1, navy2);
             fillSoldier(navy2, navy1);
+            System.out.println("-----------------------------");
+            System.out.println("EJERCITO 1: El soldado con mayor vida es: \n" + mostlifeN(navy1));
+            System.out.println("EJERCITO 2: El soldado con mayor vida es: \n" + mostlifeN(navy2));
+            System.out.println("-----------------------------");
+            System.out.println("EJERCITO 1: El promedio de nivel de vida de los soldados es: " + averageLifeN(navy1));
+            System.out.println("EJERCITO 2: El promedio de nivel de vida de los soldados es: " + averageLifeN(navy2));
+            System.out.println("-----------------------------");
+            System.out.println("EJERCITO 1: Nivel de vida de todo el ejercito es: " + displayLifeN(navy1));
+            System.out.println("EJERCITO 2: Nivel de vida de todo el ejercito es: " + displayLifeN(navy2));
+            System.out.println("-----------------------------");
+            System.out.println("EJERCITO 1: Datos de los soldados en orden de creación: ");
+            displaySoldier(navy1);
+            System.out.println("EJERCITO 2: Datos de los soldados en orden de creación: ");
+            displaySoldier(navy2);
+            System.out.println("---------Bubble sort--------");
+            System.out.println("EJERCITO 1:");
+            rankSoldierBubbleSort(navy1);
+            System.out.println("EJERCITO 2:");
+            rankSoldierBubbleSort(navy2);
+            System.out.println("---------Selection sort--------");
+            System.out.println("EJERCITO 1:");
+            rankSoldierSelectionSort(navy1);
+            System.out.println("EJERCITO 2:");
+            rankSoldierSelectionSort(navy2);
+            System.out.println("---------Mostrando Tablero-----");
             displaySoldierNavy(navy1, navy2);
+            System.out.println("Empezando la Batalla");
             while(true){
-                System.out.println(cantidadS(navy1));
-                System.out.println(cantidadS(navy2));
                 System.out.println("EJERCITO 1:Ingrese la posicion del soldado a mover ");
                 int f1 = sc.nextInt();
                 int c1 = sc.nextInt();
-                selectionSoldado(navy1, navy2, f1,c1, 1, 2);
+                selectionSoldier(navy1, navy2, f1,c1, 1, 2);
                 displaySoldierNavy(navy1, navy2);
-                if(cantidadS(navy1) == 0 || cantidadS(navy2) == 0)break;
+                if(countSoldiers(navy1) == 0 || countSoldiers(navy2) == 0)break;
                 System.out.println("EJERCITO 2:Ingrese la posicion del soldado a mover ");
                 int f2 = sc.nextInt();
                 int c2 = sc.nextInt();
-                selectionSoldado(navy2, navy1, f2, c2, 2, 1);
+                selectionSoldier(navy2, navy1, f2, c2, 2, 1);
                 displaySoldierNavy(navy1, navy2);
-                if(cantidadS(navy1) == 0 || cantidadS(navy2) == 0)break;  
+                if(countSoldiers(navy1) == 0 || countSoldiers(navy2) == 0)break;  
             }
-            System.out.println("El juego ha terminado");
+            System.out.println("La Batalla ha terminado");
             System.out.println("Desea generar otro batalla? (s/n)");
             answer = sc.next();
             if(answer.equalsIgnoreCase("n")) break;   
@@ -46,7 +70,7 @@ public class Videojuego7 {
     public static void fillSoldier(Soldado[][] army1, Soldado[][] army2) {
         int fila = army1.length;
         int columna = army1[0].length;
-        int n = 1;
+        int n = generateSoldier();
         int i = 0;
         while (i < n) {
             int lifeN = (int) (Math.random() * 5 + 1);
@@ -65,6 +89,125 @@ public class Videojuego7 {
     /* Inicializar el tablero con n soldados aleatorios entre 1 y 10 */
     public static int generateSoldier() {
         return (int) (Math.random() * 10 + 1);
+    }
+    /* Además de los datos del Soldado con mayor vida de cada ejército, */
+    public static Soldado mostlifeN(Soldado[][] army) {
+        Soldado tempo = new Soldado();
+        for (int i = 0; i < army.length; i++) {
+            for (int j = 0; j < army[i].length; j++) {
+                if (army[i][j] != null && tempo.getVidaActual() < army[i][j].getVidaActual()) {
+                    tempo = army[i][j];
+                }
+            }
+        }
+        return tempo;
+    }
+    /* el promedio de puntos de vida de todos los soldados creados por ejército */
+    public static double averageLifeN(Soldado[][] army) {
+        int suma = 0, total = 0;
+        for (int i = 0; i < army.length; i++) {
+            for (int j = 0; j < army[i].length; j++) {
+                if (army[i][j] != null) {
+                    suma += army[i][j].getVidaActual();
+                    total++;
+                }
+            }
+        }
+        return (suma * 1.0) / total;
+    }
+    /* El nivel de vida de todo el ejército */
+    public static int displayLifeN(Soldado[][] army) {
+        int lifeT = 0;
+        for (int i = 0; i < army.length; i++) {
+            for (int j = 0; j < army[i].length; j++) {
+                if (army[i][j] != null) {
+                    lifeT += army[i][j].getVidaActual();
+                }
+            }
+        }
+        return lifeT;
+    }
+    /* los datos de todos los soldados en el orden que fueron creados */
+    public static void displaySoldier(Soldado[][] army) {
+        ArrayList<Soldado> sold = bidToUni(army);
+        for (int i = 0; i < sold.size(); i++) {
+            for (int j = 0; j < sold.size() - 1 - i; j++) {
+                String w1 = sold.get(j).getName();
+                String w2 = sold.get(j + 1).getName();
+                if (w1.compareTo(w2) > 0) {
+                    Soldado tempo = sold.get(j);
+                    sold.set(j, sold.get(j + 1));
+                    sold.set(j + 1, tempo);
+                }
+            }
+        }
+        for (int i = 0; i < sold.size(); i++) {
+            System.out.println(sold.get(i));
+        }
+    }
+    /*
+     * un ranking de poder de todos los soldados creados, mayor al menor (usar al
+     * menos 2 algoritmos de ordenamiento).
+     */
+    public static void rankSoldierBubbleSort(Soldado[][] army) {
+        ArrayList<Soldado> sold = bidToUni(army);
+        for (int i = 0; i < sold.size(); i++) {
+            for (int j = 0; j < sold.size() - 1 - i; j++) {
+                if (sold.get(j).getVidaActual() < sold.get(j + 1).getVidaActual()) {
+                    Soldado tempo = sold.get(j);
+                    sold.set(j, sold.get(j + 1));
+                    sold.set(j + 1, tempo);
+                }
+            }
+        }
+        for (int i = 0; i < sold.size(); i++) {
+            System.out.println(sold.get(i));
+        }
+    }
+    public static ArrayList<Soldado> bidToUni(Soldado[][] army) {
+        ArrayList<Soldado> sold = new ArrayList<>();
+        for (int i = 0; i < army.length; i++) {
+            for (int j = 0; j < army[0].length; j++) {
+                if (army[i][j] != null) {
+                    sold.add(army[i][j]);
+                }
+            }
+        }
+        return sold;
+    }
+    public static void rankSoldierSelectionSort(Soldado[][] army) {
+        ArrayList<Soldado> sold = bidToUni(army);
+        for (int i = 0; i < sold.size(); i++) {
+            int idx = i;
+            for (int j = i + 1; j < sold.size(); j++) {
+                if (sold.get(j).getVidaActual() > sold.get(idx).getVidaActual()) {
+                    idx = j;
+                }
+            }
+            Soldado tempo = sold.get(i);
+            sold.set(i, sold.get(idx));
+            sold.set(idx, tempo);
+
+        }
+        for (int i = 0; i < sold.size(); i++) {
+            System.out.println(sold.get(i));
+        }
+    }
+    /*
+     * Finalmente, que muestre qué ejército ganará la batalla (indicar la métrica
+     * usada para decidir al ganador
+     * de la batalla).
+     */
+    public static void betterWonArmy(Soldado[][] army1, Soldado[][] army2) {
+        int pointArmy1 = displayLifeN(army1);
+        int pointArmy2 = displayLifeN(army2);
+        if (pointArmy1 == pointArmy2) {
+            System.out.println("EMPATE");
+        } else if (pointArmy1 > pointArmy2) {
+            System.out.println("El Ejercito 1 gana");
+        } else {
+            System.out.println("El Ejercito 2 gana");
+        }
     }
     /*Se
     debe mostrar el tablero con todos los soldados creados (usar caracteres como
@@ -90,19 +233,19 @@ public class Videojuego7 {
     }
     /*El juego es humano contra humano y consistirá en mover un soldado por cada
     turno de cada jugador.*/
-    public static void selectionSoldado(Soldado[][] army1, Soldado[][] army2, int f, int c, int e1, int e2){
+    public static void selectionSoldier(Soldado[][] army1, Soldado[][] army2, int f, int c, int e1, int e2){
         for (int i = 0; i < army1.length; i++) {
             for (int j = 0; j < army1[i].length; j++) {
                 if(army1[i][j] != null && army1[i][j].getFila() == f && army1[i][j].getColumna() == c ){
                     Soldado s = army1[i][j];
-                    mover(s, army1.length, army1[i].length);
+                    move(s, army1.length, army1[i].length);
                     int fila = s.getFila();
                     int columna = s.getColumna();
-                    if(hayotro(s, army1[fila][columna])){
+                    if(hasAnother(s, army1[fila][columna])){
                         System.out.println("Hay otro soldado");
-                    }else if(hayotro(s, army2[fila][columna])){
+                    }else if(hasAnother(s, army2[fila][columna])){
                         System.out.println("----Hay una Batalla!!----");
-                        int n = ganador(s, army2[fila][columna]);
+                        int n = winner(s, army2[fila][columna]);
                         if(n == 1){
                             System.out.println("EJERCITO "+e1+" GANA");
                             army1[i][j] = null;
@@ -123,7 +266,7 @@ public class Videojuego7 {
     }
     /*Se puede mover en cualquier dirección, Ud. deberá darle
     la coordenada del soldado a mover y la dirección de movimiento */
-    public static void mover(Soldado s, int f, int c) {
+    public static void move(Soldado s, int f, int c) {
         Scanner sc = new Scanner(System.in);
         System.out.println("A que lado desea mover? (der/izq/arr/aba)");
         String dir = sc.next();
@@ -165,16 +308,16 @@ public class Videojuego7 {
         }
     }
     /*(no puede haber 2 soldados del mismo ejército en el cuadrado) */
-    public static boolean hayotro(Soldado s1, Soldado s2){
+    public static boolean hasAnother(Soldado s1, Soldado s2){
         return (s2 != null && s1.getFila() == s2.getFila() && s1.getColumna() == s2.getColumna());
     }
     /* Cuando un soldado se mueve a una posición donde hay un soldado rival, 
     se produce una batalla y gana el soldado que tenga mayor nivel de vida actual */
-    public static int ganador(Soldado s1, Soldado s2){
+    public static int winner(Soldado s1, Soldado s2){
         return (s1.getVidaActual() >= s2.getVidaActual())? 1: 2;
     }
     /* Gana el juego quien deje al otro ejército vacío */
-    public static int cantidadS(Soldado[][] army){
+    public static int countSoldiers(Soldado[][] army){
         int n = 0;
         for (int i = 0; i < army.length; i++) {
             for (int j = 0; j < army[i].length; j++) {
