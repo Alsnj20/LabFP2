@@ -45,7 +45,6 @@ public class Videojuego6 {
         }
         sc.close();
     }
-
     /*
      * Cada soldado tendrá un nombre autogenerado: Soldado0X1, Soldado1X1, etc., un
      * valor de puntos de vida autogenerado aleatoriamente [1..5], la fila y columna

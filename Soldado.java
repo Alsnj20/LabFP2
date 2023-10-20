@@ -101,7 +101,7 @@ class Soldado {
         }
     }
     public void morir(){
-        live = false;
+        this.live = false;
         System.out.println("El soldado ha muerto :(");
     }
     public void data(){
