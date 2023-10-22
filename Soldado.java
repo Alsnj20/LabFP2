@@ -10,15 +10,7 @@ class Soldado {
     private int column;
     //------constructor--------
     public Soldado(){
-        this.name = "soldadox";
-        this.levelAttack = 0;
-        this.levelDefense = 0;
-        this.levelLife = 0;
-        this.speed = 0;
-        this.posture = "inicio";
-        this.row = 0;
-        this.column = 0;
-        this.live = true;
+        this("", 0, 0, 0, 0, 0);
     }
     public Soldado (String name, int levelLife, int levelDefense, int levelAttack, int row, int column){
         this.name = name;
