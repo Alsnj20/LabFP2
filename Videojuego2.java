@@ -34,7 +34,7 @@ public class Videojuego2 {
             int col = (int)(Math.random()*columna);
             if(army[row][col] == null){
                 String name = "Soldado"+i;
-                army[row][col] = new Soldado(name, lifeN, row, columna);
+                army[row][col] = new Soldado(name, lifeN, row, col);
                 i++;   
             }
         }
@@ -45,10 +45,10 @@ public class Videojuego2 {
     }
     /*, mostrar los datos del Soldado con mayor nivel de vida */
     public static Soldado mostlifeN(Soldado[][] army){
-        Soldado tempo = new Soldado("", 0, 0, 0);
+        Soldado tempo = new Soldado();
         for (int i = 0; i < army.length; i++) {
             for (int j = 0; j < army[i].length; j++) {
-                if(army[i][j] !=null && tempo.getLifeN()<army[i][j].getLifeN()){
+                if(army[i][j] !=null && tempo.getVidaActual()<army[i][j].getVidaActual()){
                     tempo = army[i][j];
                 }
             }
@@ -61,7 +61,7 @@ public class Videojuego2 {
         for (int i = 0; i < army.length; i++) {
             for (int j = 0; j < army[i].length; j++) {
                 if(army[i][j] !=null){
-                suma +=army[i][j].getLifeN();
+                suma +=army[i][j].getVidaActual();
                 total++;
                 }
             }
@@ -74,7 +74,7 @@ public class Videojuego2 {
         for (int i = 0; i < army.length; i++) {
             for (int j = 0; j < army[i].length; j++) {
                 if(army[i][j] !=null){
-                lifeT +=army[i][j].getLifeN();
+                lifeT +=army[i][j].getVidaActual();
                 }
             }
         }   
@@ -109,7 +109,7 @@ public class Videojuego2 {
             for (int j = 0; j < army[i].length; j++) {
                 if (army[i][j] != null) {
                     String word= army[i][j].getName();
-                    System.out.print("|S"+word.charAt(word.length()-1)+":"+army[i][j].getLifeN()+"|");
+                    System.out.print("|S"+word.charAt(word.length()-1)+":"+army[i][j].getVidaActual()+"|");
                 } else {
                     System.out.print("|____|");
                 }
@@ -122,7 +122,7 @@ public class Videojuego2 {
         ArrayList<Soldado> sold = bidToUni(army);
         for (int i = 0; i < sold.size(); i++) {
             for (int j = 0; j < sold.size()-1-i; j++) {  
-                if (sold.get(j).getLifeN() < sold.get(j+1).getLifeN()) {
+                if (sold.get(j).getVidaActual() < sold.get(j+1).getVidaActual()) {
                     Soldado tempo = sold.get(j);
                     sold.set(j,sold.get(j+1));
                     sold.set(j+1, tempo);
@@ -149,7 +149,7 @@ public class Videojuego2 {
         for (int i = 0; i < sold.size(); i++) {
             int idx = i;
             for (int j = i+1; j < sold.size(); j++) {
-                if(sold.get(j).getLifeN() > sold.get(idx).getLifeN()){
+                if(sold.get(j).getVidaActual() > sold.get(idx).getVidaActual()){
                     idx = j;
                 }
             }

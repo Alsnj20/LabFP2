@@ -75,7 +75,7 @@ public class Videojuego3 {
         Soldado tempo = new Soldado("", 0, 0, 0);
         for (int i = 0; i < army.size(); i++) {
             for (int j = 0; j < army.get(i).size(); j++) {
-                if(army.get(i).get(j) !=null && tempo.getLifeN()<army.get(i).get(j).getLifeN()){
+                if(army.get(i).get(j) !=null && tempo.getVidaActual()<army.get(i).get(j).getVidaActual()){
                     tempo = army.get(i).get(j);
                 }
             }
@@ -88,7 +88,7 @@ public class Videojuego3 {
         for (int i = 0; i < army.size(); i++) {
             for (int j = 0; j < army.get(i).size(); j++) {
                 if(army.get(i).get(j) !=null){
-                suma +=army.get(i).get(j).getLifeN();
+                suma +=army.get(i).get(j).getVidaActual();
                 total++;
                 }
             }
@@ -101,7 +101,7 @@ public class Videojuego3 {
         for (int i = 0; i < army.size(); i++) {
             for (int j = 0; j < army.get(i).size(); j++) {
                 if(army.get(i).get(j) !=null){
-                lifeT +=army.get(i).get(j).getLifeN();
+                lifeT +=army.get(i).get(j).getVidaActual();
                 }
             }
         }   
@@ -136,9 +136,9 @@ public class Videojuego3 {
             System.out.print(i+" ");
             for (int j = 0; j < army.get(i).size(); j++) {
                 if (army.get(i).get(j) != null) {
-                    System.out.print("|E1:"+army.get(i).get(j).getLifeN()+"|");
+                    System.out.print("|E1:"+army.get(i).get(j).getVidaActual()+"|");
                 }else if(army2.get(i).get(j) != null) {
-                    System.out.print("|E2:"+army2.get(i).get(j).getLifeN()+"|");    
+                    System.out.print("|E2:"+army2.get(i).get(j).getVidaActual()+"|");    
                 }else{
                     System.out.print("|____|");
                 }
@@ -151,7 +151,7 @@ public class Videojuego3 {
         ArrayList<Soldado> sold = bidToUni(army);
         for (int i = 0; i < sold.size(); i++) {
             for (int j = 0; j < sold.size()-1-i; j++) {  
-                if (sold.get(j).getLifeN() < sold.get(j+1).getLifeN()) {
+                if (sold.get(j).getVidaActual() < sold.get(j+1).getVidaActual()) {
                     Soldado tempo = sold.get(j);
                     sold.set(j,sold.get(j+1));
                     sold.set(j+1, tempo);
@@ -178,7 +178,7 @@ public class Videojuego3 {
         for (int i = 0; i < sold.size(); i++) {
             int idx = i;
             for (int j = i+1; j < sold.size(); j++) {
-                if(sold.get(j).getLifeN() > sold.get(idx).getLifeN()){
+                if(sold.get(j).getVidaActual() > sold.get(idx).getVidaActual()){
                     idx = j;
                 }
             }
