@@ -461,8 +461,8 @@ public class Videojuego9 {
         for (int i = 0; i < army.length; i++) {
             for (int j = 0; j < army[i].length; j++) {
                 if (army[i][j] != null && army[i][j].getName().equalsIgnoreCase(name)){ 
-                    System.out.println(army[i][j]);
-                } found = true;
+                    System.out.println(army[i][j]);found = true;
+                } 
             }
         }
         if(!found) System.out.println("name not found");
