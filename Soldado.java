@@ -1,3 +1,4 @@
+import java.util.*;
 class Soldado {
     private String name;
     private int levelAttack;
@@ -8,6 +9,11 @@ class Soldado {
     private boolean live;
     private int row;
     private int column;
+    private static int countArmy1 = 0;
+    private static int countArmy2 = 0;
+    private static int countSoldierTotal = 0;
+    public static final int MAX_COUNT_SOLDIER = 10;
+    private String team;
     //------constructor--------
     public Soldado(){
         this(null, 0, 0, 0, 0, 0);
@@ -52,6 +58,18 @@ class Soldado {
     public void setColumna(int column){
         this.column = column;
     }
+    public static void setTeam(String w){
+        if(w.equalsIgnoreCase("A")) countArmy1++;
+        else countArmy2++;
+        countSoldierTotal++;
+    }
+    public static void setCountArmy(int n){
+        if(n == 1)
+            countArmy1--;
+        if(n == 2) 
+            countArmy2--;
+        countSoldierTotal--;
+    }
     //-----get-----------
     public String getName(){
         return name;
@@ -70,6 +88,15 @@ class Soldado {
     }
     public int getColumna() {
         return column;
+    }
+    public static int getCountSoldierTotal(){
+        return countSoldierTotal;
+    }
+    public static int getCountArmy1(){
+        return countArmy1;
+    }
+    public static int getCountArmy2(){
+        return countArmy2;
     }
     //-----methods-------
     public void atacar(){
@@ -127,5 +154,8 @@ class Soldado {
         int defense = this.levelDefense + s.levelDefense;
         int velo = this.speed + s.speed;
         return new Soldado(life, defense, attack, velo);
+    }
+    public static void printCountSoldier(){
+           System.out.println("EJERCITO1: "+Soldado.countArmy1+" |EJERCITO2: "+Soldado.countArmy2); 
     }
 }
