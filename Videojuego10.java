@@ -3,7 +3,7 @@ import java.util.*;
 public class Videojuego10 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int f = 8; int c = 8;
+        int f = 10; int c = 10;
         Soldado[][] navy1 = new Soldado[f][c];
         Soldado[][] navy2 = new Soldado[f][c];
         Boolean play = true;

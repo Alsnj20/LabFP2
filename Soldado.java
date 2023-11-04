@@ -58,6 +58,9 @@ class Soldado {
     public void setColumna(int column){
         this.column = column;
     }
+    public void setTeam2(String team){
+        this.team = team;
+    }
     public static void setTeam(String w){
         if(w.equalsIgnoreCase("A")) countArmy1++;
         else countArmy2++;
@@ -97,6 +100,9 @@ class Soldado {
     }
     public static int getCountArmy2(){
         return countArmy2;
+    }
+    public String getTeam1(){
+        return team;
     }
     //-----methods-------
     public void atacar(){
