@@ -1,8 +1,6 @@
 package Lab15;
-
 import java.util.ArrayList;
 import java.util.Scanner;
-
 public class Ejercito {
     private String nameArmy;
     private ArrayList<Soldado> army = new ArrayList<>();
