@@ -1,6 +1,4 @@
-import java.util.HashMap;
-import java.util.Scanner;
-
+import java.util.*;
 public class Mapa {
     public static final int SIZE = 10;
     private final String[][] KINGDOMS = {
@@ -23,9 +21,9 @@ public class Mapa {
         kingdomName2Id = (int) (Math.random() * KINGDOMS.length);
         int amount1 = (int) (Math.random() * 10 + 1);
         int amount2 = (int) (Math.random() * 10 + 1);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < amount1; i++)
             generateArmy(kingdom1, kingdomName1Id);
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < amount2; i++)
             generateArmy(kingdom2, kingdomName2Id);
     }
 

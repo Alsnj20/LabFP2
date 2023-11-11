@@ -1,4 +1,4 @@
-//Lab16-Mariel Jara
+//Lab17-Mariel Jara
 import java.util.*;
 public class Videojuego14 {
     public static void main(String[] args) {
