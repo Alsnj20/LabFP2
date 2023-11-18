@@ -67,10 +67,7 @@ public class Ejercito {
         return tempo;
     }
     public double averageLife(){
-        double suma = 0;
-        for(Soldado s: army.values())
-            suma +=s.getVidaActual();
-        return suma / army.size();
+        return getTotalHealthArmy() / army.size();
     }
     public void displaySoldier() {
         ArrayList<Soldado> sold = new ArrayList<>();
