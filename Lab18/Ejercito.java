@@ -95,7 +95,7 @@ public class Ejercito {
         }
         printSort(sold);
     }
-    public static void printSort(ArrayList<Soldado> sold) {
+    private static void printSort(ArrayList<Soldado> sold) {
         for (int i = 0; i < sold.size(); i++)
             System.out.println(sold.get(i));
     }

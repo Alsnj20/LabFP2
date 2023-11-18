@@ -41,6 +41,7 @@ public class Ejercito {
         String name = "Soldado" + row + "X" + col;
         Soldado s = new Soldado(name, life, defense, attack, row, col);
         army.put(generateKey(row,col), s);
+        System.out.println(s);
     }
     public static String generateKey(int row, int col){
         return row+","+col;
