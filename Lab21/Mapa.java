@@ -1,6 +1,6 @@
 import java.util.*;
 public class Mapa {
-    public static final Soldado[][] table = new Soldado[10][10];
+    private final Soldado[][] table = new Soldado[10][10];
     private final String[][] KINGDOMS = {
             { "Inglaterra", "bosque" },
             { "Francia", "campo abierto" },

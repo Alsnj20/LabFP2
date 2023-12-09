@@ -1,6 +1,9 @@
+import java.awt.*;
 import java.util.*;
-public class Mapa implements GameRules{
-    private final Soldado[][] table = new Soldado[10][10];
+import javax.swing.*;
+public class Mapa {
+    private Graphic game = new Graphic();
+    private final Soldado[][] t = new Soldado[10][10];
     private final String[][] KINGDOMS = {
             { "Inglaterra", "bosque" },
             { "Francia", "campo abierto" },
@@ -21,14 +24,15 @@ public class Mapa implements GameRules{
         kingdomName2Id = (int) (Math.random() * KINGDOMS.length);
 
         boolean buffed1 = isBuffed(kingdomName1Id);
-        army1 = new Ejercito(getKingdomName1(), table, buffed1);
+        army1 = new Ejercito(game, getKingdomName1(), t, buffed1);
 
         boolean buffed2 = isBuffed(kingdomName2Id);
-        army2 = new Ejercito(getKingdomName2(), table, buffed2);
+        army2 = new Ejercito(game, getKingdomName2(), t, buffed2);
     }
     public String getType() {return type;}
     public String getKingdomName1() {return KINGDOMS[(kingdomName1Id)][0];}
     public String getKingdomName2() {return KINGDOMS[(kingdomName2Id)][0];}
+    public Graphic getGraphic(){return game;}
     public boolean isBuffed(int kingdomNameId) {
         for (int i = 0; i < KINGDOMS[kingdomNameId].length; i++) {
             if (type.equals(KINGDOMS[kingdomNameId][i]))
@@ -47,38 +51,39 @@ public class Mapa implements GameRules{
         displayCantTypeSoldado(army2, 2, getKingdomName2());
     }
     public void printMap() {
-        System.out.print("     0");
-        for (int i = 1; i < table.length; i++) {
-            System.out.printf("        %01d", i);
-        }
-        System.out.println();
-        for (int i = 0; i < table.length; i++) {
-            System.out.printf("%01d ", i);
-            for (int j = 0; j < table[i].length; j++) {
-                if (table[i][j] != null) {
-                    Soldado army = table[i][j];
-                    String w = "";
-                    if (army2.getArmy().contains(army))
-                        w = getKingdomName2().substring(0, 1);
-                    else
+        JButton btn = new JButton("");
+        for (int i = 0; i < t.length; i++) {
+            for (int j = 0; j < t[i].length; j++) {
+                if (t[i][j] != null) {
+                    Soldado army = t[i][j];
+                    String w = ""; Color c = null;
+                    if (army2.getArmy().contains(army)){
+                        w = getKingdomName2().substring(0, 1); 
+                        c = new Color(255, 0, 0);
+                    }else{
                         w = getKingdomName1().substring(0, 1);
-                    System.out.printf("|%s:%s-%02d|", w, army.getName().substring(0, 2),
-                            army.getVidaActual());
+                        c = new Color(0, 255, 0);
+                    }
+                    btn = new JButton(w+":"+army.getName().substring(0, 2)+"-"+army.getVidaActual());
+                    btn.setBackground(c);
+                    btn.setSize(100, 60);
+                    btn.setFont(new Font("Cascadia Code",Font.BOLD, 14));
                 } else {
-                    System.out.print("|_______|");
+                    btn = new JButton("              ");
+                    btn.setBackground(Color.WHITE);
                 }
+                game.addButton(btn, i, j);
             }
-            System.out.println();
         }
     }
-    private void handleBattle(Ejercito army1, Ejercito army2, int f, int c) {
+    public void handleBattle(Ejercito army1, Ejercito army2, int f, int c) {
         ArrayList<Soldado> k1 = army1.getArmy();
         ArrayList<Soldado> k2 = army2.getArmy();
-        Soldado s1 = Ejercito.moveSoldier(table, f, c);
+        Soldado s1 = Ejercito.moveSoldier(t, f, c);
         int row = s1.getFila();
         int col = s1.getColumna();
-        Soldado s2 = table[row][col];
-        if (table[row][col] != null) {
+        Soldado s2 = t[row][col];
+        if (t[row][col] != null) {
             if (k1.contains(s2)) {
                 System.out.println("Hay otro ejército del mismo reino");
             } else if (k2.contains(s2)) {
@@ -96,18 +101,18 @@ public class Mapa implements GameRules{
                     System.out.println("vida de sus soldados y aplicando un experimento aleatorio salió vencedor.");
                     System.out.println("(Aleatorio generado: " + luck + ")");
                     s1.setVidaActual(s1.getVidaActual() + 1);
-                    table[f][c] = null;
-                    table[row][col] = s1;
+                    t[f][c] = null;
+                    t[row][col] = s1;
                     k2.remove(s2);
                 } else {
                     s2.setVidaActual(s2.getVidaActual() + 1);
-                    table[f][c] = null;
+                    t[f][c] = null;
                     k1.remove(s1);
                 }
             }
         } else {
-            table[f][c] = null;
-            table[row][col] = s1;
+            t[f][c] = null;
+            t[row][col] = s1;
         }
     }
     public void playGame() {
@@ -115,11 +120,9 @@ public class Mapa implements GameRules{
         int turno = 1;
         while (army1.getArmy().size() > 0 && army2.getArmy().size() > 0) {
             String w = (turno == 1) ? getKingdomName1() : getKingdomName2();
-            System.out.println("Soldado" + w + ": Ingrese el soldado a mover(f/c)");
-            int f = sc.nextInt();
-            int c = sc.nextInt();
-            handleBattle((turno == 1) ? army1 : army2, (turno != 1) ? army1 : army2, f, c);
-            printMap();
+            game.addContentTable(w, "Ejercito", "ejercito");
+            handleBattle((turno == 1) ? army1 : army2, (turno != 1) ? army1 : army2, game.getFila(), game.getColumna());
+            //printMap();
             turno = (turno == 1) ? 2 : 1;
         }
         System.out.println("La batalla ha terminado");
